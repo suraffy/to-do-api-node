@@ -1,5 +1,10 @@
-const experss = require('express');
+const express = require('express');
+const user = require('./routers/userRouter');
 
-const app = experss();
+const app = express();
+
+app.use(express.json());
+
+app.use('/users', user);
 
 module.exports = app;

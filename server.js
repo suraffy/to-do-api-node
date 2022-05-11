@@ -5,8 +5,9 @@ const uri = 'mongodb://localhost:27017/to-do-app';
 mongoose
   .connect(uri, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useCreateIndex: true,
     useFindAndModify: false,
+    useUnifiedTopology: true,
   })
   .catch((err) => console.log(err));
 
