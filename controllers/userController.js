@@ -1,4 +1,5 @@
 const User = require('./../models/userModel');
+const Task = require('./../models/taskModel');
 
 const filter = (obj, allowedFields) => {
   const newObj = {};
@@ -67,7 +68,8 @@ exports.updateMe = async (req, res) => {
 
 exports.deleteMe = async (req, res) => {
   try {
-    req.user.delete();
+    await req.user.delete();
+    await Task.deleteMany({ owner: req.user.id });
 
     res.status(204).json();
   } catch (err) {
