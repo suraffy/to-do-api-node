@@ -19,16 +19,9 @@ exports.signUp = async (req, res) => {
 
     const token = await user.generateAuthToken();
 
-    res.status(201).json({
-      status: 'success',
-      user,
-      token,
-    });
+    res.status(201).json({ user, token });
   } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: 'Invalid data',
-    });
+    res.status(400).json({ error: 'Invalid data' });
   }
 };
 
@@ -41,30 +34,17 @@ exports.login = async (req, res) => {
 
     const token = await user.generateAuthToken();
 
-    res.status(200).json({
-      status: 'success',
-      user,
-      token,
-    });
+    res.status(200).json({ user, token });
   } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: 'username or password incorrect!',
-    });
+    res.status(400).json({ error: 'username or password incorrect!' });
   }
 };
 
 exports.me = async (req, res) => {
   try {
-    res.status(200).json({
-      status: 'success',
-      user: req.user,
-    });
+    res.status(200).json({ user: req.user });
   } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'User not found!',
-    });
+    res.status(404).json({ error: 'User not found!' });
   }
 };
 
@@ -79,15 +59,9 @@ exports.updateMe = async (req, res) => {
     });
     if (!user) throw new Error();
 
-    res.status(200).json({
-      status: 'success',
-      user,
-    });
+    res.status(200).json({ user });
   } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message,
-    });
+    res.status(400).json({ error: 'Can not update user!' });
   }
 };
 
@@ -95,14 +69,8 @@ exports.deleteMe = async (req, res) => {
   try {
     req.user.delete();
 
-    res.status(204).json({
-      status: 'success',
-      user: null,
-    });
+    res.status(204).json();
   } catch (err) {
-    res.status(500).json({
-      status: 'fail',
-      message: 'Can not delete user!',
-    });
+    res.status(500).json({ error: 'Can not delete user!' });
   }
 };
