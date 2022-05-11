@@ -21,11 +21,8 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, 'Password is required!'],
+      minLength: [4, 'password too short!'],
       select: false,
-    },
-    passwordConfirm: {
-      type: String,
-      required: [true, 'Please confirm your password!'],
     },
     avatar: Buffer,
   },
