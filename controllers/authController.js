@@ -1,6 +1,7 @@
-const User = require('./../models/userModel');
+const jwt = require('jsonwebtoken');
+const User = require('../models/userModel');
 
-exports.authenticate = async (req, res, next) => {
+const authenticate = async (req, res, next) => {
   try {
     let rha = req.headers.authorization;
     rha = rha && rha.startsWith('Bearer ') ? rha.split(' ')[1] : undefined;
@@ -8,13 +9,13 @@ exports.authenticate = async (req, res, next) => {
     rhc = rhc ? rhc.split('=')[1] : undefined;
 
     const token = rha ? rha : rhc;
-    if (!token) throw new Error();
+    if (!token) throw new Error('hi');
 
-    const decoded = jwt.verify(token, 'secretecode');
+    const decoded = jwt.verify(token, 'secretekey');
 
     // Check if the user is not deleted after the token has issued
     const currentUser = await User.findById(decoded.id);
-    if (!currentUser) throw new Error();
+    if (!currentUser) throw new Error('helo');
 
     req.user = currentUser;
     next();
@@ -25,3 +26,5 @@ exports.authenticate = async (req, res, next) => {
     });
   }
 };
+
+module.exports = authenticate;
