@@ -25,6 +25,9 @@ const taskSchema = new Schema(
   { timestamps: true }
 );
 
+taskSchema.index({ owner: 1 });
+taskSchema.index({ createdAt: 1 });
+
 const Task = mongoose.model('Task', taskSchema);
 
 module.exports = Task;
