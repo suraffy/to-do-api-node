@@ -27,8 +27,20 @@ exports.createTask = async (req, res) => {
 
 exports.getAllTask = async (req, res) => {
   try {
-    const owner = req.user.id;
-    const tasks = await Task.find({ owner });
+    const filter = {};
+    filter.owner = req.user.id;
+    req.query.completed ? (filter.completed = req.query.completed) : undefined;
+
+    const options = {};
+    options.limit = parseInt(req.query.limit);
+    options.skip = parseInt(req.query.skip);
+
+    if (req.query.sortedBy) {
+      const arr = req.query.sortedBy.split(':');
+      options.sort = { [arr[0]]: arr[1] };
+    }
+
+    const tasks = await Task.find(filter, null, options);
 
     res.status(200).json({ results: tasks.length, tasks });
   } catch (err) {
