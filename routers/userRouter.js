@@ -13,8 +13,10 @@ const router = express.Router();
 router.post('/signup', signUp);
 router.post('/login', login);
 
-router.get('/me', authenticate, me);
-router.patch('/updateme', authenticate, updateMe);
-router.delete('/deleteMe', authenticate, deleteMe);
+router
+  .route('/me')
+  .get(authenticate, me)
+  .patch(authenticate, updateMe)
+  .delete(authenticate, deleteMe);
 
 module.exports = router;
